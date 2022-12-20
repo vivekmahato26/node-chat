@@ -12,9 +12,12 @@ module.exports = (req, res, next) => {
         return next();
     }
     try {
-        const verifyToken = jwt.verify(token, "secretKey");
-        if (verifyToken) {
+        console.log(token);
+        // const verifyToken = jwt.verify(token, "secretKey");
+        // if (verifyToken) {
+console.log(JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()));
             const decodedToken = jwt.decode(token, "secretKey");
+            console.log(decodedToken);
             const keys = Object.keys(decodedToken);
             if (keys.length) {
                 req.isAuth = true;
@@ -25,10 +28,10 @@ module.exports = (req, res, next) => {
                 req.isAuth = false;
                 return next();
             }
-        } else {
-            req.isAuth = false;
-            return next();
-        }
+        // } else {
+        //     req.isAuth = false;
+        //     return next();
+        // }
     } catch (error) {
         console.log(error)
         req.isAuth = false;
